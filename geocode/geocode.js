@@ -1,6 +1,6 @@
 var request = require('request');
 
-var geocodeAddress = (address) => {
+var geocodeAddress = (address, callback) => {
     var encodedAddress = encodeURIComponent(address);
 
     request({
@@ -8,18 +8,18 @@ var geocodeAddress = (address) => {
         json: true
     }, (error, response, body) => {
         if (error) {
-            console.log(error);
+            callback(error);
         } else if (body.status === 'ZERO_RESULTS') {
-            console.log('Unable to find the address');
+            callback('Unable to find the address')
         } else if (body.status === 'OK') {
             var location = {
                 add: body.results[0].formatted_address,
                 lat: body.results[0].geometry.location.lat,
                 lng: body.results[0].geometry.location.lng
             };
-            console.log(location);
+            callback(undefined, location);
         } else {
-            console.log('API KEY EXPIRED');
+            callback('API KEY EXPIRED');
         }
     });
 }
