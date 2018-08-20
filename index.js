@@ -1,5 +1,4 @@
 var yargs = require('yargs');
-var request = require('request');
 var geocode = require('./geocode/geocode');
 var weather = require('./weather/weather');
 
